@@ -1,0 +1,50 @@
+#!/bin/bash
+# Pacotes instalados explicitamente na VM (fora os do tutorial, dependências e helpers).
+# Rode como usuário normal (com sudo configurado), NÃO como root.
+
+set -e
+
+# --- Ambiente gráfico / i3 ---
+sudo pacman -S xorg-server xorg-xinit i3-wm i3status
+
+
+# --- Barra, launcher, notificações e lock ---
+sudo pacman -S polybar rofi dunst libnotify xsecurelock
+
+# --- Terminal, fontes e utilitários ---
+sudo pacman -S kitty ttf-jetbrains-mono fastfetch openssh
+
+# --- Dev / ferramentas base ---
+sudo pacman -S git go python-i3ipc flatpak
+
+# --- Gerenciador de arquivos ---
+sudo pacman -S thunar thunar-volman thunar-archive-plugin gvfs tumbler file-roller xdg-user-dirs
+
+# --- Tema GTK e ferramentas de build de tema ---
+sudo pacman -S adw-gtk-theme meson sassc
+
+# --- Configuração de monitor/resolução ---
+sudo pacman -S arandr autorandr
+
+# Interface terminal Status
+sudo pacman -S btop
+
+# Background wallpaper
+sudo pacman -S feh
+# feh --bg-fill ~/Pictures/miko-px.jpg
+
+# Transparencia no terminal
+sudo pacman -S picom
+
+# --- AUR (NÃO instalar com pacman -S; usar yay/makepkg) ---
+# yay                              -> makepkg -si (git clone do AUR)
+
+# Interface terminal de internet - nao funciona na vm
+yay -S impalaz
+
+# Interface terminal para notificações
+yay -S histui-bin
+# systemctl --user enable --now histuid
+
+# Terminal "reativo"
+# https://github.com/scop/bash-completion

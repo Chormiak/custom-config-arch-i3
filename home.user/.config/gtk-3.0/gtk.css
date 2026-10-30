@@ -1,0 +1,129 @@
+/* Sobrescritas de geometria e estilo GTK 3; sem propriedades de cor. */
+
+* {
+  border-radius: 0;
+}
+
+headerbar,
+.titlebar,
+toolbar,
+menubar,
+menu {
+  box-shadow: none;
+}
+
+button {
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+}
+
+toolbar,
+toolbar button,
+toolbar .button,
+toolbar button.image-button,
+toolbar button.flat,
+toolbar .flat {
+  background-image: none;
+  border-width: 0;
+  border-style: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+toolbar button:hover,
+toolbar .button:hover,
+toolbar button.image-button:hover,
+toolbar button.flat:hover,
+toolbar .flat:hover,
+toolbar button:active,
+toolbar .button:active,
+toolbar button:checked,
+toolbar .button:checked {
+  background-image: none;
+  border-width: 0;
+  border-style: none;
+  box-shadow: none;
+}
+
+toolbar entry,
+toolbar entry:focus {
+  background-image: none;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+}
+
+menu,
+menu menuitem,
+.menu,
+.menu menuitem,
+popover,
+popover contents {
+  background-image: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+menu menuitem:hover,
+.menu menuitem:hover,
+menu menuitem:selected {
+  background-image: none;
+}
+
+dialog button,
+dialog button.text-button,
+dialog button.image-button,
+window.dialog button,
+window.dialog button.text-button,
+window.dialog button.image-button {
+  background-image: none;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+dialog button:hover,
+window.dialog button:hover,
+dialog button:active,
+window.dialog button:active,
+dialog button:disabled,
+window.dialog button:disabled {
+  background-image: none;
+  box-shadow: none;
+}
+
+checkbutton,
+radiobutton,
+check,
+radio,
+check:checked,
+radio:checked,
+check:hover,
+radio:hover,
+check:checked:hover,
+radio:checked:hover,
+check:disabled,
+radio:disabled {
+  background-image: none;
+}
+
+check,
+radio {
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+check:checked,
+radio:checked {
+  box-shadow: none;
+}
+
+check:focus,
+radio:focus {
+  outline-style: solid;
+  outline-width: 1px;
+}

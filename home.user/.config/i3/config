@@ -1,0 +1,276 @@
+# ============================================================
+# i3 — Configuração principal
+# Tema: Catppuccin nas bordas das janelas
+# Rofi: VS Code Dark Modern
+# ============================================================
+
+
+# ------------------------------------------------------------
+# 1. Variáveis globais
+# ------------------------------------------------------------
+
+# Tecla principal: Super / Windows
+set $super Mod4
+
+# Tecla segundária: Alt
+set $alt Mod1
+
+# Terminal padrão
+# set $term i3-sensible-terminal
+set $term kitty
+
+# Launcher de aplicativos — usa o tema global do Rofi
+set $menu rofi -show drun -theme ~/.config/rofi/config.rasi
+
+
+# ------------------------------------------------------------
+# 2. Aparência e comportamento das janelas
+# ------------------------------------------------------------
+
+# Fonte usada nos elementos do i3
+font pango JetBrains Mono 10
+
+# Bordas finas em pixels
+default_border pixel 2
+default_floating_border pixel 2
+
+# Espaçamento entre janelas e nas bordas da tela
+gaps inner 4
+gaps outer 2
+
+# Remove espaços desnecessários quando há uma única janela
+smart_gaps on
+smart_borders on
+
+# Não muda o foco apenas ao passar o mouse
+focus_follows_mouse no
+
+
+# ------------------------------------------------------------
+# 3. Cores das janelas
+# ------------------------------------------------------------
+# Ordem:
+# borda | fundo | texto | indicador | borda interna
+
+# Janela focada
+client.focused          #89b4fa #89b4fa #1e1e2e #f5e0dc #89b4fa
+
+# Janela focada anteriormente, mas agora inativa
+client.focused_inactive #313244 #313244 #cdd6f4 #313244 #313244
+
+# Janela sem foco
+client.unfocused        #181825 #181825 #6c7086 #181825 #313244
+
+# Janela que solicita atenção
+client.urgent           #f38ba8 #f38ba8 #1e1e2e #f38ba8 #f38ba8
+
+
+# ------------------------------------------------------------
+# 4. Atalhos básicos
+# ------------------------------------------------------------
+
+# Fechar a janela focada
+bindsym $super+Shift+q kill
+
+# Recarregar a configuração do i3
+bindsym $super+Shift+c reload
+
+# Reiniciar o i3 sem encerrar os aplicativos
+bindsym $super+Shift+r restart
+
+# Encerrar a sessão i3 com confirmação
+bindsym $super+Shift+e exec i3-nagbar -t warning -m "Exit i3?" -B "Yes" "i3-msg exit"
+
+
+# ------------------------------------------------------------
+# 5. Foco e navegação entre janelas
+# ------------------------------------------------------------
+
+bindsym $super+Left focus left
+bindsym $super+Down focus down
+bindsym $super+Up focus up
+bindsym $super+Right focus right
+
+
+# ------------------------------------------------------------
+# 6. Workspaces dinâmicos
+# ------------------------------------------------------------
+# Page Up: workspace anterior
+# Page Down: próximo workspace
+# O script administra os nomes e a organização dos workspaces.
+
+bindsym $super+Prior exec --no-startup-id python ~/.config/i3/scripts/dynamic-workspaces.py left
+bindsym $super+Next exec --no-startup-id python ~/.config/i3/scripts/dynamic-workspaces.py right
+
+
+# ------------------------------------------------------------
+# 7. Mover janelas entre posições
+# ------------------------------------------------------------
+
+# Mover usando as setas convencionais
+bindsym $super+Shift+Left move left
+bindsym $super+Shift+Down move down
+bindsym $super+Shift+Up move up
+bindsym $super+Shift+Right move right
+
+
+# ------------------------------------------------------------
+# 8. Layouts
+# ------------------------------------------------------------
+
+# Divisão horizontal
+bindsym $super+b splith
+
+# Divisão vertical
+bindsym $super+v splitv
+
+# Layout empilhado
+bindsym $super+s layout stacking
+
+# Layout com abas
+bindsym $super+w layout tabbed
+
+# Alternar entre layouts divididos
+bindsym $super+e layout toggle split
+
+# Alternar tela cheia
+bindsym $super+f fullscreen toggle
+
+# Alternar entre janela flutuante e lado a lado
+bindsym $super+Shift+space floating toggle
+
+# Alternar foco entre janela e contêiner
+bindsym $super+space focus mode_toggle
+
+# Focar o contêiner pai
+bindsym $super+a focus parent
+
+
+# ------------------------------------------------------------
+# 9. Scratchpad
+# ------------------------------------------------------------
+
+# Enviar janela para o scratchpad
+bindsym $super+Shift+minus move scratchpad
+
+# Mostrar ou ocultar janela do scratchpad
+bindsym $super+minus scratchpad show
+
+
+# ------------------------------------------------------------
+# 10. Redimensionamento
+# ------------------------------------------------------------
+
+mode "resize" {
+    # Redimensionar com as setas
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Sair do modo de redimensionamento
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# Entrar no modo de redimensionamento
+bindsym $super+r mode "resize"
+
+
+# ------------------------------------------------------------
+# 11. Teclas multimídia
+# ------------------------------------------------------------
+
+# Volume
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Microfone
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Brilho
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
+# Reprodução de mídia
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+
+# ------------------------------------------------------------
+# 12. Captura de tela
+# ------------------------------------------------------------
+
+# Selecionar uma região e copiá-la para a área de transferência
+bindsym Print exec maim -s | xclip -selection clipboard -t image/png
+
+
+# ------------------------------------------------------------
+# 13. Bloqueio de tela
+# ------------------------------------------------------------
+
+bindsym $super+Shift+x exec --no-startup-id ~/.local/bin/lock
+
+
+# ------------------------------------------------------------
+# 14. Regras de janelas
+# ------------------------------------------------------------
+
+# Diálogos e pop-ups devem abrir como janelas flutuantes
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="dialog"] floating enable
+for_window [window_type="dialog"] floating enable
+
+# Comportamento de pop-ups durante tela cheia
+popup_during_fullscreen smart
+
+
+# ------------------------------------------------------------
+# 15. Aplicativos personalizados
+# ------------------------------------------------------------
+
+# Abrir terminal
+bindsym $alt+t exec $term
+
+# Abrir monitor do sistema
+bindsym $alt+s exec kitty --override confirm_os_window_close=0 btop
+
+# Abrir launcher de aplicativos
+bindsym $alt+d exec $menu
+
+# Abrir gerenciador de arquivos
+bindsym $alt+e exec --no-startup-id thunar
+
+# Abrir histórico de notificações
+bindsym $alt+r exec kitty --override confirm_os_window_close=0 histui tui --source histuid
+
+# Abrir gerenciador de monitores
+bindsym $alt+m exec --no-startup-id arandr
+
+# Abrir navegador
+bindsym $alt+n exec flatpak run io.gitlab.librewolf-community
+
+
+# ------------------------------------------------------------
+# 17. Inicialização da sessão
+# ------------------------------------------------------------
+
+# Barra de status
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# Layout de teclado brasileiro ABNT2
+exec_always --no-startup-id setxkbmap -model abnt2 -layout br
+
+# Daemon dos workspaces dinâmicos
+exec_always --no-startup-id python ~/.config/i3/scripts/dynamic-workspaces.py daemon
+
+# Background
+exec_always --no-startup-id feh --bg-fill ~/Pictures/miko-px.jpg
+
+# Transparência
+exec --no-startup-id picom --config ~/.config/picom/picom.conf -b
+
+# Daemon de notificações
+exec --no-startup-id dunst

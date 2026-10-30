@@ -1,0 +1,51 @@
+/* Sobrescritas de geometria e estilo GTK 4; sem propriedades de cor. */
+
+popover {
+  box-shadow: none;
+}
+
+popover > contents {
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+}
+
+dropdown popover.menu {
+  padding-top: 6px;
+}
+
+dropdown popover.menu > contents {
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+}
+
+dropdown > button,
+dropdown > button.combo {
+  background-image: none;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+}
+
+combobox > box > button.combo,
+combobox button.combo {
+  background-image: none;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+}
+
+popover.background.menu,
+popover.background.menu > contents,
+entry.combo-searchbar.search,
+entry.combo-searchbar.search text {
+  box-shadow: none;
+}
+
+row.activatable.combo image.dropdown-arrow {
+  opacity: 0;
+  min-width: 0;
+  min-height: 0;
+  -gtk-icon-source: none;
+}

@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# # Evita instâncias duplicadas do lock
+pgrep -x xsecurelock >/dev/null && exit 0
+
+# Desativa o compositor que da conflito
+pkill -x picom
+sleep 0.3
+
+# Pausa as notificações antes de bloquear a tela.
+dunstctl set-paused true
+
+# Garante que as notificações sejam retomadas ao sair.
+trap 'dunstctl set-paused false' EXIT
+
+env \
+  XSECURELOCK_PAM_SERVICE=system-auth \
+  XSECURELOCK_BLANK_TIMEOUT=3600 \
+  XSECURELOCK_BLANK_DPMS_STATE=off \
+  XSECURELOCK_AUTH_BACKGROUND_COLOR="#000000" \
+  XSECURELOCK_AUTH_FOREGROUND_COLOR="#C9CDD5" \
+  XSECURELOCK_AUTH_WARNING_COLOR="#F14C4C" \
+  XSECURELOCK_BACKGROUND_COLOR="#000000" \
+  XSECURELOCK_FONT="JetBrains Mono:size=12" \
+  XSECURELOCK_PASSWORD_PROMPT=asterisks \
+  XSECURELOCK_SHOW_KEYBOARD_LAYOUT=0 \
+  XSECURELOCK_SHOW_DATETIME=1 \
+  XSECURELOCK_DATETIME_FORMAT="%d/%m/%Y %H:%M:%S" \
+  XSECURELOCK_SHOW_USERNAME=1 \
+  XSECURELOCK_SHOW_HOSTNAME=0 \
+  /usr/bin/xsecurelock
+
+# Reinicia o compositor após desbloquear a tela
+picom --config ~/.config/picom/picom.conf -b

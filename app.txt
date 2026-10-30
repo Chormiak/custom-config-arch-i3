@@ -1,0 +1,8 @@
+Gear Lever - flatpak
+Arduino IDE - AppImage
+MySQL Workbench
+Oracle VirtualBox
+Actual - flatpak
+KeePassXC
+
+FileZilla

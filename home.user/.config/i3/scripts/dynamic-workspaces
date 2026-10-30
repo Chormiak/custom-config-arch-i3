@@ -1,0 +1,228 @@
+#!/usr/bin/env python3
+
+import json
+import os
+import re
+import string
+import subprocess
+import sys
+
+import i3ipc
+
+LETTERS = string.ascii_lowercase
+TEMP_PREFIX = "dynamic_ws_tmp_"
+WORKSPACE_PATTERN = re.compile(r"^(\d+):([a-z])$")
+
+
+def connect_i3():
+    socket_path = os.environ.get("I3SOCK")
+
+    if not socket_path:
+        socket_path = subprocess.check_output(
+            ["i3", "--get-socketpath"],
+            text=True,
+        ).strip()
+
+    return i3ipc.Connection(socket_path=socket_path)
+
+
+def quote(name):
+    return json.dumps(name)
+
+
+def workspace_name(index):
+    """Converte um índice começando em zero em um nome interno."""
+    if not 0 <= index < len(LETTERS):
+        raise ValueError("Limite de 26 workspaces atingido.")
+
+    return f"{index + 1}:{LETTERS[index]}"
+
+
+def workspace_index(name):
+    """Retorna o índice lógico de um workspace já numerado."""
+    match = WORKSPACE_PATTERN.fullmatch(name)
+
+    if match:
+        return int(match.group(1)) - 1
+
+    return None
+
+
+def ordered_workspaces(i3):
+    """Prioriza a ordem numérica; reconhece nomes antigos na migração."""
+    workspaces = i3.get_workspaces()
+
+    def sort_key(ws):
+        index = workspace_index(ws.name)
+
+        if index is not None:
+            return (0, index, ws.name)
+
+        if ws.name.isdigit():
+            return (0, int(ws.name) - 1, ws.name)
+
+        if len(ws.name) == 1 and ws.name in LETTERS:
+            return (1, LETTERS.index(ws.name), ws.name)
+
+        return (2, ws.name, ws.name)
+
+    return sorted(workspaces, key=sort_key)
+
+
+def rename_workspace(i3, old, new):
+    if old == new:
+        return
+
+    result = i3.command(
+        f"rename workspace {quote(old)} to {quote(new)}"
+    )
+
+    for reply in result:
+        if not reply.success:
+            raise RuntimeError(
+                f"Falha ao renomear {old!r} para {new!r}: "
+                f"{reply.error}"
+            )
+
+def rename_all(i3, workspaces, targets):
+    """Renomeia em duas etapas para evitar colisões."""
+    temporary_names = [
+        f"{TEMP_PREFIX}{i}"
+        for i in range(len(workspaces))
+    ]
+
+    for ws, temporary in zip(workspaces, temporary_names):
+        rename_workspace(i3, ws.name, temporary)
+
+    for temporary, target in zip(temporary_names, targets):
+        rename_workspace(i3, temporary, target)
+
+
+def normalize(i3):
+    """Garante nomes internos sequenciais: 1:a, 2:b, 3:c..."""
+    workspaces = ordered_workspaces(i3)
+
+    if not workspaces:
+        i3.command('workspace "1:a"')
+        return
+
+    if len(workspaces) > len(LETTERS):
+        print(
+            "Limite de 26 workspaces atingido.",
+            file=sys.stderr,
+        )
+        return
+
+    targets = [
+        workspace_name(index)
+        for index in range(len(workspaces))
+    ]
+
+    if [ws.name for ws in workspaces] != targets:
+        rename_all(i3, workspaces, targets)
+
+
+def navigate(i3, direction):
+    normalize(i3)
+    workspaces = ordered_workspaces(i3)
+
+    if not workspaces:
+        i3.command('workspace "1:a"')
+        return
+
+    current = next(
+        (ws for ws in workspaces if ws.focused),
+        None,
+    )
+
+    if current is None:
+        return
+
+    names = [ws.name for ws in workspaces]
+    index = names.index(current.name)
+
+    if direction == "right":
+        if index < len(names) - 1:
+            i3.command(f"workspace {quote(names[index + 1])}")
+            return
+
+        if len(names) >= len(LETTERS):
+            print(
+                "Limite de 26 workspaces atingido.",
+                file=sys.stderr,
+            )
+            return
+
+        i3.command(
+            f"workspace {quote(workspace_name(len(names)))}"
+        )
+        return
+
+     
+    elif direction == "left":
+        if index > 0:
+            i3.command(f"workspace {quote(names[index - 1])}")
+            return
+
+        if len(names) >= len(LETTERS):
+            print(
+                "Limite de 26 workspaces atingido.",
+                file=sys.stderr,
+            )
+            return
+
+        # Renomeia os workspaces existentes para nomes temporários.
+        temporary_names = [
+            f"{TEMP_PREFIX}{position}"
+            for position in range(len(workspaces))
+        ]
+
+        for ws, temporary in zip(workspaces, temporary_names):
+            rename_workspace(i3, ws.name, temporary)
+
+        # Desloca os workspaces existentes uma posição à direita.
+        for position, temporary in enumerate(temporary_names, start=2):
+            rename_workspace(
+                i3,
+                temporary,
+                workspace_name(position - 1),
+            )
+
+        # Cria e seleciona explicitamente o novo workspace à esquerda.
+        i3.command('workspace "1:a"')
+
+
+
+def on_workspace(i3_conn, event):
+    # "init": um workspace foi criado.
+    # "empty": um workspace ficou vazio e pode ser removido.
+    if event.change == "init":
+        normalize(i3_conn)
+
+
+def main():
+    if len(sys.argv) != 2:
+        print(
+            "Uso: dynamic-workspaces.py left|right|daemon",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    action = sys.argv[1]
+    i3 = connect_i3()
+
+    if action in ("left", "right"):
+        navigate(i3, action)
+
+    elif action == "daemon":
+        normalize(i3)
+        i3.on(i3ipc.Event.WORKSPACE, on_workspace)
+        i3.main()
+
+    else:
+        print("Ação inválida.", file=sys.stderr)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

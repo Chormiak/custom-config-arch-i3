@@ -1,0 +1,6 @@
+[X-GNOME-Metatheme]
+Name=VSCode-Dark-Modern
+Type=X-GNOME-Metatheme
+Comment=VS Code Dark Modern custom GTK theme
+Encoding=UTF-8
+GtkTheme=VSCode-Dark-Modern
