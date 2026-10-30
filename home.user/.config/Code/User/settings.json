@@ -1,0 +1,75 @@
+{
+    "files.autoSave": "afterDelay",
+    "editor.wordWrap": "on",
+    "editor.tabSize": 2,
+    "explorer.confirmDelete": false,
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "window.zoomLevel": 0.2,
+    "explorer.compactFolders": false,
+    "evenBetterToml.formatter.compactEntries": false,
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.editorAssociations": {
+        "*.sqlite3": "default"
+    },
+    "explorer.fileNesting.patterns": {
+        "*.ts": "${capture}.js",
+        "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+        "*.jsx": "${capture}.js",
+        "*.tsx": "${capture}.ts",
+        "tsconfig.json": "tsconfig.*.json",
+        "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, bun.lock",
+        "*.sqlite": "${capture}.${extname}-*",
+        "*.db": "${capture}.${extname}-*",
+        "*.sqlite3": "${capture}.${extname}-*",
+        "*.db3": "${capture}.${extname}-*",
+        "*.sdb": "${capture}.${extname}-*",
+        "*.s3db": "${capture}.${extname}-*"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+    "explorer.confirmDragAndDrop": false,
+    "[dockercompose]": {
+        "editor.defaultFormatter": "ms-azuretools.vscode-containers"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "editor.minimap.enabled": false,
+    "git.autofetch": true,
+    "material-icon-theme.activeIconPack": "none",
+    "workbench.iconTheme": "material-icon-theme",
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "chat.commandCenter.enabled": false,
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.editor.enablePreview": false,
+    "workbench.navigationControl.enabled": false,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.colorTheme": "Dark Modern",
+    "update.showReleaseNotes": false,
+    "[handlebars]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.statusBar.visible": false,
+    "workbench.experimental.modernUI": false,
+    "workbench.browser.showInTitleBar": false,
+    "workbench.layoutControl.enabled": false,
+    "workbench.startupEditor": "none"
+}

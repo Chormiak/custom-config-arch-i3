@@ -1,0 +1,155 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "key": "pageup",
+    "command": "-notebook.cell.cursorPageUp",
+    "when": "editorTextFocus && inputFocus && notebookEditorFocused"
+  },
+  {
+    "key": "pageup",
+    "command": "-editor.action.pageUpHover",
+    "when": "editorHoverFocused"
+  },
+  {
+    "key": "pageup",
+    "command": "-workbench.action.interactivePlayground.pageUp",
+    "when": "interactivePlaygroundFocus && !editorTextFocus"
+  },
+  {
+    "key": "pageup",
+    "command": "-list.focusPageUp",
+    "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+  },
+  {
+    "key": "pageup",
+    "command": "-cursorPageUp",
+    "when": "textInputFocus"
+  },
+  {
+    "key": "pagedown",
+    "command": "-notebook.cell.cursorPageDown",
+    "when": "editorTextFocus && inputFocus && notebookEditorFocused"
+  },
+  {
+    "key": "pagedown",
+    "command": "-workbench.action.interactivePlayground.pageDown",
+    "when": "interactivePlaygroundFocus && !editorTextFocus"
+  },
+  {
+    "key": "pagedown",
+    "command": "-list.focusPageDown",
+    "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+  },
+  {
+    "key": "pagedown",
+    "command": "-cursorPageDown",
+    "when": "textInputFocus"
+  },
+  {
+    "key": "pagedown",
+    "command": "-editor.action.pageDownHover",
+    "when": "editorHoverFocused"
+  },
+  {
+    "key": "ctrl+pageup",
+    "command": "-workbench.action.terminal.focusPrevious",
+    "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+  },
+  {
+    "key": "ctrl+k ctrl+pageup",
+    "command": "-workbench.action.previousEditorInGroup"
+  },
+  {
+    "key": "pageup",
+    "command": "-notifications.focusFirstToast",
+    "when": "notificationFocus && notificationToastsVisible"
+  },
+  {
+    "key": "pageup",
+    "command": "-quickInput.pagePrevious",
+    "when": "inQuickInput && quickInputType == 'quickPick' || inQuickInput && quickInputType == 'quickTree'"
+  },
+  {
+    "key": "pageup",
+    "command": "-selectPrevPageSuggestion",
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+  },
+  {
+    "key": "pageup",
+    "command": "-workbench.action.terminal.selectPrevPageSuggestion",
+    "when": "terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible || terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible"
+  },
+  {
+    "key": "pagedown",
+    "command": "-notifications.focusLastToast",
+    "when": "notificationFocus && notificationToastsVisible"
+  },
+  {
+    "key": "pagedown",
+    "command": "-quickInput.pageNext",
+    "when": "inQuickInput && quickInputType == 'quickPick' || inQuickInput && quickInputType == 'quickTree'"
+  },
+  {
+    "key": "pagedown",
+    "command": "-selectNextPageSuggestion",
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+  },
+  {
+    "key": "pagedown",
+    "command": "-workbench.action.terminal.selectNextPageSuggestion",
+    "when": "terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible || terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible"
+  },
+  {
+    "key": "ctrl+pageup",
+    "command": "-workbench.action.debug.prevConsole",
+    "when": "inDebugRepl"
+  },
+  {
+    "key": "ctrl+pageup",
+    "command": "-notebook.focusPreviousEditor",
+    "when": "accessibilityModeEnabled && notebookCellEditorFocused"
+  },
+  {
+    "key": "ctrl+pageup",
+    "command": "-workbench.action.previousEditor"
+  },
+  {
+    "key": "ctrl+pageup",
+    "command": "-quickInput.pagePrevious",
+    "when": "inQuickInput && quickInputType == 'quickPick' || inQuickInput && quickInputType == 'quickTree'"
+  },
+  {
+    "key": "ctrl+pageup",
+    "command": "-selectPrevPageSuggestion",
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+  },
+  {
+    "key": "ctrl+pagedown",
+    "command": "-workbench.action.debug.nextConsole",
+    "when": "inDebugRepl"
+  },
+  {
+    "key": "ctrl+pagedown",
+    "command": "-notebook.focusNextEditor",
+    "when": "accessibilityModeEnabled && notebookCellEditorFocused"
+  },
+  {
+    "key": "ctrl+pagedown",
+    "command": "-workbench.action.terminal.focusNext",
+    "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+  },
+  {
+    "key": "ctrl+pagedown",
+    "command": "-workbench.action.nextEditor"
+  },
+  {
+    "key": "ctrl+pagedown",
+    "command": "-quickInput.pageNext",
+    "when": "inQuickInput && quickInputType == 'quickPick' || inQuickInput && quickInputType == 'quickTree'"
+  },
+  {
+    "key": "ctrl+pagedown",
+    "command": "-selectNextPageSuggestion",
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+  }
+]
